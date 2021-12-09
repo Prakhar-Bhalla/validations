@@ -7,6 +7,10 @@ const User = require("../models/user.model");
 const { body, validationResult } = require('express-validator');
 
 router.post("/", body("first_name").notEmpty().withMessage("First name can't be empty"), body("last_name").notEmpty().withMessage("Last name can't be empty"), body("email").notEmpty().withMessage("email can't be empty").isEmail().withMessage("Invalid Email"), body("pincode").custom((value) => {
+    if(value == undefined) 
+    {
+        throw new Error("Pincode can't be empty");
+    }
     const pin = value.toString();
     if(pin.length != 6) 
     {
@@ -14,12 +18,20 @@ router.post("/", body("first_name").notEmpty().withMessage("First name can't be 
     }
     return true;
 }), body("age").custom((value) => {
+    if(value == undefined) 
+    {
+        throw new Error("Age can't be empty");
+    }
     if(value < 1 || value > 100)
     {
         throw new Error("Members between age 1 to 100 only allowed to register");
     }
     return true;
 }), body("gender").custom((value) => {
+    if(value == undefined) 
+    {
+        throw new Error("Gender can't be empty");
+    }
     let genderOpt = ["Male", "Female", "Others"];
     if(!genderOpt.includes(value))
     {
