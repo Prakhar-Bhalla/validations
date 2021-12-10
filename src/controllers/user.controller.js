@@ -6,7 +6,7 @@ const User = require("../models/user.model");
 
 const { body, validationResult } = require('express-validator');
 
-router.post("/", body("first_name").notEmpty().withMessage("First name can't be empty"), body("last_name").notEmpty().withMessage("Last name can't be empty"), body("email").notEmpty().withMessage("email can't be empty").isEmail().withMessage("Invalid Email"), body("pincode").custom((value) => {
+router.post("/", body("first_name").notEmpty().withMessage("First name can't be empty"), body("last_name").notEmpty().withMessage("Last name can't be empty"), body("email").notEmpty().withMessage("email can't be empty").bail().isEmail().withMessage("Invalid Email"), body("pincode").custom((value) => {
     if(value == undefined) 
     {
         throw new Error("Pincode can't be empty");
